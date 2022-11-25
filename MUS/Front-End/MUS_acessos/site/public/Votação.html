@@ -8,9 +8,9 @@
     <title>MUS</title>
     <link rel="stylesheet" href="CSS/style_votacao.css">
     <link rel="shortcut icon" href="Imagens/Fone-PNG.png" type="image/x-icon">
+    <!-- <script src="./js/funcoes.js"></script> -->
 </head>
-<script src="./js/funcoes.js"></script>
-</head>
+
 <body>
     <div class="header">
         <div class="logo">
@@ -44,7 +44,7 @@
         </div>
     <div class="votacao">
     Selecione o seu favorito <br>
-    <select name="" id="sel_vote" onchange="()">
+    <select name="" id="sel_vote">
         <option value="escolha">- Escolha um -</option>
         <option value="rock">Rock</option>
         <option value="pop">POP</option>
@@ -53,7 +53,7 @@
 
         
     </select>
-        <button onclick="votar()">Votar</button>
+        <button onclick="votar()"><a href="MUS_DASHBOARD.html">Votar</a></button>
     </div>
     
     
