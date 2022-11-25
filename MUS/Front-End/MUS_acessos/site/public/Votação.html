@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUS</title>
+    <link rel="stylesheet" href="CSS/style_votacao.css">
+    <link rel="shortcut icon" href="Imagens/Fone-PNG.png" type="image/x-icon">
+</head>
+<script src="./js/funcoes.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="index.html"><img src="Imagens/mus.png" width="200"></a>
+        </div>
+
+        <div class="nav_home">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">Vote</a></li>
+                <li><a href="index.html">Quem Somos?</a></li>
+            </ul>
+        </div>
+
+        <div class="log_cad">
+            <li class="botao_log"><a href="login_MUS.html">Login</a></li>
+            <li class="botao_cad"><a href="cadastro_MUS.html">Cadastro</a></li>
+        </div>
+    </div>
+    <div class="votar">
+        <div class="fotos">
+            <div class="imgrock">
+                Rock<br>
+            </div>
+            <div class="imgrap">
+                Rap<br>
+            </div>
+            <div class="imgrpop">
+                POP<br>
+            </div>
+        </div>
+    <div class="votacao">
+    Selecione o seu favorito <br>
+    <select name="" id="sel_vote" onchange="()">
+        <option value="escolha">- Escolha um -</option>
+        <option value="rock">Rock</option>
+        <option value="pop">POP</option>
+        <option value="rap">Rap</option>
+        <option value="alternativo">Alternativo</option><br>
+
+        
+    </select>
+        <button onclick="votar()">Votar</button>
+    </div>
+    
+    
+</body>
+</html>
+<script>
+
+    function votar(){
+        var estilo = selCombo.value
+
+        fetch(`usuario/votar/${estilo}`).then(function (resposta) {
+            if (resposta.ok) {
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                   
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+            finalizarAguardar();
+        });
+    
+    }
+</script>

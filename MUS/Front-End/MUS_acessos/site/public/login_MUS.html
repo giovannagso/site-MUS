@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Login</title>
+   <link rel="stylesheet" href="CSS/style_login_MUS.css" />
+   <link rel="shortcut icon" href="Imagens/Fone-PNG.png" type="image/x-icon">
+</head>
+
+<script src="./js/funcoes.js"></script>
+
+<body>
+   <div class="header">
+      <div class="logo">
+         <a href="index.html"><img src="Imagens/mus.png" width="200"></a>
+      </div>
+
+      <div class="nav_home">
+          <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="index.html">Vote</a></li>
+              <li><a href="index.html">Quem Somos?</a></li>
+          </ul>
+      </div>
+
+      <div class="log_cad">
+          <li class="botao_log"><a href="login_MUS.html">Login</a></li>
+          <li class="botao_cad"><a href="cadastro_MUS.html">Cadastro</a></li>
+      </div>
+  </div>
+   <div class="telaLogin">
+      <div class="esquerda-login">
+         <img src="Imagens/guitarra.png" alt="" class="imagemlogo">
+         <a class="botaoVoltarParaATeladeCadastro" href="cadastro_MUS.html"> Não tem uma conta ? Clique aqui!</a>
+      </div>
+
+      <div class="textologin">
+         <h1 class="fraselogin">Login</h1><br>
+         <div class="centralizar_input">
+            <input type="text" name="Usuario" placeholder="Usuario" id="in_usuario">
+            <input type="password" name="senha" placeholder="Senha" id="in_senha">
+         </div>
+
+         <div class="div_botaologin">
+            <button class="botaologin" onclick="entrar()"><a href="dashboard_emerald.html">Entrar</a></button>
+         </div>
+      </div>
+   </div>
+</body>
+
+</html>
+<script>
+ function entrar() {
+        var emailVar = in_usuario.value;
+        var senhaVar = in_senha.value;
+
+        if (emailVar == "" || senhaVar == "") {
+            alert('preencha os campos corretamente')
+            
+            return false;
+        }
+      
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.idusuario;
+
+                    setTimeout(function () {
+                        window.location = "./Musicas.html";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+           
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+
+
+</script>
+
+
+

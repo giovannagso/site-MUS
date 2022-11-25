@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUS</title>
+    <link rel="stylesheet" href="CSS/style_musica.css">
+    <link rel="shortcut icon" href="Imagens/Fone-PNG.png" type="image/x-icon">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="index.html"><img src="Imagens/mus.png" width="200"></a>
+        </div>
+
+        <div class="nav_home">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">Vote</a></li>
+                <li><a href="index.html">Quem Somos?</a></li>
+            </ul>
+        </div>
+
+        <div class="log_cad">
+            <li class="botao_log"><a href="login_MUS.html">Login</a></li>
+            <li class="botao_cad"><a href="cadastro_MUS.html">Cadastro</a></li>
+        </div>
+    </div>
+    <div class="conteudo">
+        <div class="caixa_forms">
+            <div class="imgmic">
+            </div>
+        <div class="comentarios">
+            <div class="texto">
+                <p>Compartilhe suas músicas</p>
+            </div>
+            <input type="text" id="nome_musica" placeholder="Coloque sua música"><BR>
+            <input type="text" id="comentario" placeholder="Comente sobre a música "><br>
+            <button onclick="cadastrar_musica()">Cadastrar música</button>
+            <div class="armazenar" id="armazenar_musica">TESTE</div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+
+
+    function cadastrar_musica() {
+            //Recupere o valor da nova input pelo nome do id
+            // Agora vá para o método fetch logo abaixo
+            var nome_musicaVar = nome_musica.value;
+            var comentarioVar = comentario.value;
+    
+    
+            if (nome_musicaVar == "" || comentarioVar == "") {
+                alert('preencha os campos corretamente')
+                
+                return false;
+            }   
+            
+    
+            // Enviando o valor da nova input
+            fetch("/usuarios/cadastrar_musica", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    // crie um atributo que recebe o valor recuperado aqui
+                    // Agora vá para o arquivo routes/usuario.js
+                    nome_musicaServer: nome_musicaVar,
+                    comentarioServer: comentarioVar
+                })
+            }).then(function (resposta) {
+    
+                console.log("resposta: ", resposta);
+    
+                if (resposta.ok) {
+                    
+                    alert('Musica cadastrada')
+                    div.armazenar.innerhtml
+                    
+                } else {
+                    throw ("Houve um erro ao tentar realizar o cadastro!");
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    
+            return false;
+        }
+    </script>

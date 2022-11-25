@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUS</title>
+    <link rel="stylesheet" href="CSS/style_cadastro_MUS.css">
+   <link rel="shortcut icon" href="Imagens/Fone-PNG.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="index.html"><img src="Imagens/mus.png" width="200"></a>
+        </div>
+
+        <div class="nav_home">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">Vote</a></li>
+                <li><a href="index.html">Quem Somos?</a></li>
+            </ul>
+        </div>
+
+        <div class="log_cad">
+            <li class="botao_log"><a href="login_MUS.html">Login</a></li>
+            <li class="botao_cad"><a href="cadastro_MUS.html">Cadastro</a></li>
+        </div>
+    </div>
+    <div class="cadastro">
+        <div class="box_form">
+            <div class="imgForm">
+            </div>
+            <div class="caixa_forms">
+                <div class="forms empresa">
+                    <h1>Usuario</h1>
+                    <div class="cl_input">
+                        <input class="cl_nome" type="text" placeholder="Nome" id="in_nome">
+                    </div>
+
+                    <div class="cl_input">
+                        <input class="cl_email" type="mail" placeholder="seuemail@email.com" id="in_email">
+                    </div>
+                    <div class="cl_input">
+                        <input class="cl_senha" type="password" placeholder="Senha" id="in_senha"> 
+                    </div>
+                    <div class="cl_input"> 
+                        <input class="cl_confirmacao" type="password" placeholder="Confirme sua senha" id="in_confirmacao">
+                    </div>
+                </div>
+
+                   <button class="btn" onclick="cadastrar()"><a href="login_MUS.html">Cadastrar</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+
+
+function cadastrar() {
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var nomeVar = in_nome.value;
+        var emailVar = in_email.value;
+        var senhaVar = in_senha.value;
+        var confirmacaoSenhaVar = in_confirmacao.value;
+
+        if (nomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoSenhaVar == "") {
+            alert('preencha os campos corretamente')
+            
+            return false;
+        }   
+        
+
+        // Enviando o valor da nova input
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                setTimeout(() => {
+                    window.location = "login_MUS.html";
+                }, "2000")
+                
+                
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+        return false;
+    }
+</script>
