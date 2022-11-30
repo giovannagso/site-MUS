@@ -23,8 +23,17 @@ router.post("/autenticar", function (req, res) {
     usuarioController.entrar(req, res);
 });
 
-router.put("/votar/:nomeEstilo", function (req, res) {
+router.put("/votar", function (req, res) {
     usuarioController.votar(req, res);
 });
+
+router.get("/imprimir", function (req, res) {
+    usuarioController.imprimir(req, res);
+});
+
+router.get("/metricas", function (req, res) {
+    usuarioController.metricas(req, res);
+});
+
 
 module.exports = router;

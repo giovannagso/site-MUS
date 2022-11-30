@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="CSS/style_votacao.css">
     <link rel="shortcut icon" href="Imagens/Fone-PNG.png" type="image/x-icon">
     <!-- <script src="./js/funcoes.js"></script> -->
+    
 </head>
 
 <body>
@@ -53,7 +54,7 @@
 
         
     </select>
-        <button onclick="votar()"><a href="MUS_DASHBOARD.html">Votar</a></button>
+        <button onclick="votar()"><a>Votar</a></button>
     </div>
     
     
@@ -62,22 +63,26 @@
 <script>
 
     function votar(){
-        var estilo = selCombo.value
+        var estilo = sel_vote.value
+        fetch(`/usuarios/votar`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                estilo               
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {                
 
-        fetch(`usuario/votar/${estilo}`).then(function (resposta) {
-            if (resposta.ok) {
+                window.location = "./Dashboard/MUS_DASHBOARD.html"
+            };
 
-                resposta.json().then(function (resposta) {
-                    console.log("Dados recebidos: ", JSON.stringify(resposta));
-
-                   
-                });
-            } else {
-                throw ('Houve um erro na API!');
-            }
-        }).catch(function (resposta) {
+        })
+           
+        .catch(function (resposta) {
             console.error(resposta);
-            finalizarAguardar();
+            
         });
     
     }

@@ -12,6 +12,8 @@ var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var avisosRouter = require("./src/routes/avisos");
 var medidasRouter = require("./src/routes/medidas");
+const { isMainThread } = require("worker_threads");
+const { inflate } = require("zlib");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,4 +32,4 @@ app.listen(PORTA, function () {
     \t\tSe "desenvolvimento", você está se conectando ao banco LOCAL (MySQL Workbench). \n
     \t\tSe "producao", você está se conectando ao banco REMOTO (SQL Server em nuvem Azure) \n
     \t\t\t\tPara alterar o ambiente, comente ou descomente as linhas 1 ou 2 no arquivo 'app.js'`);
-});
+})

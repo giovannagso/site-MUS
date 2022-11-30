@@ -38,7 +38,9 @@
             <input type="text" id="nome_musica" placeholder="Coloque sua música"><BR>
             <input type="text" id="comentario" placeholder="Comente sobre a música "><br>
             <button onclick="cadastrar_musica()">Cadastrar música</button>
-            <div class="armazenar" id="armazenar_musica">TESTE</div>
+            <div class="armazenar" id="armazenar_musica">
+              
+            </div>
         </div>
         </div>
     </div>
@@ -52,6 +54,7 @@
             // Agora vá para o método fetch logo abaixo
             var nome_musicaVar = nome_musica.value;
             var comentarioVar = comentario.value;
+            var usuario = sessionStorage.getItem('ID_USUARIO')
     
     
             if (nome_musicaVar == "" || comentarioVar == "") {
@@ -71,7 +74,8 @@
                     // crie um atributo que recebe o valor recuperado aqui
                     // Agora vá para o arquivo routes/usuario.js
                     nome_musicaServer: nome_musicaVar,
-                    comentarioServer: comentarioVar
+                    comentarioServer: comentarioVar,
+                    usuario
                 })
             }).then(function (resposta) {
     
@@ -79,8 +83,8 @@
     
                 if (resposta.ok) {
                     
-                    alert('Musica cadastrada')
-                    div.armazenar.innerhtml
+                    imprimir()
+                    
                     
                 } else {
                     throw ("Houve um erro ao tentar realizar o cadastro!");
@@ -91,4 +95,26 @@
     
             return false;
         }
+
+        function imprimir() {
+            fetch("/usuarios/imprimir").then(function(resposta){
+                if(resposta.ok){
+                    resposta.json().then(function(response){
+                        armazenar_musica.innerHTML = ''
+                        for(var i = 0; i < response.length; i++){
+                            var atual = response[i]
+                            armazenar_musica.innerHTML += `
+                            <div class="resultado">
+                                <p>${atual.nome}</p>
+                                <p>${atual.musica}</p>
+                                <p>${atual.comentario}</p>
+                            </div>
+                            `
+                        }
+                    })
+                }
+            })
+        }
+
+        imprimir()
     </script>
