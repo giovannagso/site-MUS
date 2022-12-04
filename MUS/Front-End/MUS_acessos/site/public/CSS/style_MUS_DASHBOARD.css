@@ -130,17 +130,22 @@ a {
 .musicas{
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
     flex-direction: column;
 }
 
 
 .mais_vot{
-    width: 80%;
+    width: 60%;
     background-color: #8B008B;
     border-radius: 10px;
     margin-right: 20px;
     padding: 10px;
+}
+.mais_vot text{
+    display: flex;
+    flex-direction: row;
+    j
 }
 
 .grafi_musica{

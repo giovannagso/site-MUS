@@ -7,6 +7,28 @@ function testar(req, res) {
     res.json("ESTAMOS FUNCIONANDO!");
 }
 
+function buscarAvaliacao (req, res) {
+
+    var idUsuario = req.params.idUsuario;
+
+    console.log("ID USER: ", idUsuario)
+
+    usuarioModel.buscarAvaliacao(idUsuario)
+    .then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(
+        function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        }
+    );
+}
+
 function votar(req, res) {
     usuarioModel.votar()
         .then(function (resultado) {
@@ -199,6 +221,32 @@ function imprimir(req, res) {
             );
     
 }
+function avaliando(req, res) {
+    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
+
+        var usuario = req.body.usuario
+        var avaliacao = req.body. avaliandoServer
+
+    // Faça as validações dos valore
+        
+        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
+        usuarioModel.avaliando(usuario,avaliacao)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    
+}
 
 module.exports = {
     entrar,
@@ -208,5 +256,7 @@ module.exports = {
     votar,
     cadastrar_musica,
     imprimir,
-    metricas
+    metricas,
+    avaliando,
+    buscarAvaliacao
 }

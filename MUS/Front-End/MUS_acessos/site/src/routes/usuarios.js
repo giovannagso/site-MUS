@@ -23,6 +23,10 @@ router.post("/autenticar", function (req, res) {
     usuarioController.entrar(req, res);
 });
 
+router.get('/buscar_avaliacao/:idUsuario', function (req, res) {
+    usuarioController.buscarAvaliacao(req, res);
+});
+
 router.put("/votar", function (req, res) {
     usuarioController.votar(req, res);
 });
@@ -33,6 +37,9 @@ router.get("/imprimir", function (req, res) {
 
 router.get("/metricas", function (req, res) {
     usuarioController.metricas(req, res);
+});
+router.post("/avaliando", function (req, res) {
+    usuarioController.avaliando(req, res);
 });
 
 

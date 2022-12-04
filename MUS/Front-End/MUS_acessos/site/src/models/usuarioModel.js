@@ -1,5 +1,17 @@
 var database = require("../database/config")
 
+
+function buscarAvaliacao (idusuario) {
+    console.log("ACESSEI O USUARIO MODEL \n\n buscarAvaliacao");
+
+    var instrucao = `
+        select * from avaliacao where fkusuario = ${idusuario}
+    `;
+
+    return database.executar(instrucao);
+}
+
+
 function listar() {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucao = `
@@ -13,6 +25,7 @@ function votar(estilo) {
    
     var instrucao = `
         update vote set qtdvoto = (qtdvoto + 1) where estilo = '${estilo}';
+
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -71,6 +84,19 @@ function imprimir() {
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
+function avaliando(usuario,avaliacao) {
+    
+    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
+    //  e na ordem de inserção dos dados.
+    var instrucao = `
+    insert into avaliacao values
+        (null,"${avaliacao}",${usuario});
+    
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
 
 module.exports = {
     entrar,
@@ -79,5 +105,7 @@ module.exports = {
     votar,
     cadastrar_musica,
     imprimir,
-    metricas
+    metricas,
+    avaliando,
+    buscarAvaliacao
 };

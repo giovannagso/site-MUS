@@ -16,7 +16,7 @@
 
 <script src="./js/funcoes.js"></script>
 
-<body>
+<body onload="carregar()">
     <!-- Navbar-->
     <div class="header">
         <div class="logo">
@@ -28,6 +28,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#serv">Vote</a></li>
                 <li><a href="#quemsomos">Quem Somos?</a></li>
+                <li><a href="#avaliar">Avalie aqui</a></li>
             </ul>
         </div>
 
@@ -62,7 +63,7 @@
                 <h1>MUS</h1>
                 <p>Uma nova experiência </p>
                 <button class="botao_serv"><a href="Votação.html">Que tal nos dizer o seu favorito?</a></button>
-               
+
             </div>
         </div>
     </div>
@@ -72,16 +73,114 @@
         <div class="title">
             <h1>Quem Somos?</h1>
             <p>
-                A MUS é um site de música onde todos podem compartilhar suas musicas favoritas e também conhecer novos hits.<br>
-                Foi criada a partir da minha paixão (música),com a MUS você compartilha sentimentos através de musicas e também pode adicionar comentarios nelas.
+                A MUS é um site de música onde todos podem compartilhar suas musicas favoritas e também conhecer novos
+                hits.<br>
+                Foi criada a partir da minha paixão (música),com a MUS você compartilha sentimentos através de musicas e
+                também pode adicionar comentarios nelas.
             </p>
             <div class="img_servico">
                 <img src="Imagens/dançante.png" alt="">
             </div>
         </div>
     </div>
-</div>
+    </div>
+    <!-- Avalie o site -->
+    <div id="avaliar" class="avaliacao">
+        <div class="title">
+            <h1>Avalie aqui o site</h1>
+            <input type="text" id="comentario" placeholder="Comente sobre o site "><br>
+            <button onclick="avalie()">Avaliar</button>
+            <div class="armazenar" id="av">
 
-   
+
+            </div>
+        </div>
+    </div>
+
 </body>
+
 </html>
+<script>
+
+    function carregar() {
+        var usuario = sessionStorage.getItem('ID_USUARIO')
+
+        console.log(usuario)
+
+        fetch(`/usuarios/buscar_avaliacao/${usuario}`)
+            .then(function (respostaSeDeuCerto) {
+                if (respostaSeDeuCerto.ok) {
+                    if (respostaSeDeuCerto.status == 200) {
+                        console.log(respostaSeDeuCerto)
+                        respostaSeDeuCerto.json()
+                            .then(function (respostaFormatada) {
+                                console.log(respostaFormatada)
+                                if (respostaFormatada > 0) {
+                                    alert('você ja hhsadjashdjkhas')
+                                }
+                            })
+                    } else {
+                        alert("Este usuario ainda não realizou nenhuma avaliacao")
+                    }
+                } else {
+                    alert("Houve um erro na requisição")
+                }
+            })
+            .catch(function (erroOcorrido) {
+                console.error(erroOcorrido)
+            })
+    }
+
+    function avalie() {
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var avaliandoVar = comentario.value;
+        var usuario = sessionStorage.getItem('ID_USUARIO')
+        var avaliacao = sessionStorage.getItem("AVALIACAO_USUARIO")
+
+        if (avaliandoVar == "") {
+            alert('preencha os campos corretamente')
+
+            return false;
+        } else if (usuario == null || !usuario) {
+            alert('Faça o login antes de avaliar ')
+
+            return false;
+        } else if (avaliacao == "null" || !avaliacao) {
+            // Enviando o valor da nova input
+            fetch("/usuarios/avaliando", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    // crie um atributo que recebe o valor recuperado aqui
+                    // Agora vá para o arquivo routes/usuario.js
+                    avaliandoServer: avaliandoVar,
+                    usuario
+                })
+            }).then(function (resposta) {
+
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+
+                    alert('Avaliação enviada')
+                    comentario.value = ""
+
+                    sessionStorage.AVALIACAO_USUARIO = avaliandoVar;
+
+                } else {
+                    throw ("Houve um erro ao tentar realizar o cadastro!");
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+        } else {
+            alert("Este usuário já realizou uma avaliação")
+        }
+
+
+        return false;
+    }
+</script>

@@ -23,6 +23,7 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="index.html">Vote</a></li>
                 <li><a href="index.html">Quem Somos?</a></li>
+                <li><a href="index.html">Avalie aqui</a></li>
             </ul>
         </div>
 
@@ -49,8 +50,7 @@
         <option value="escolha">- Escolha um -</option>
         <option value="rock">Rock</option>
         <option value="pop">POP</option>
-        <option value="rap">Rap</option>
-        <option value="alternativo">Alternativo</option><br>
+        <option value="rap">Rap</option><br>
 
         
     </select>
@@ -63,7 +63,16 @@
 <script>
 
     function votar(){
+        var ultima = sessionStorage.getItem('VOTO_USUARIO')
+
+        console.log(ultima == "null");
+
         var estilo = sel_vote.value
+        if(ultima != "null"){
+            alert('Você ja votou!')
+            return false
+        }
+
         fetch(`/usuarios/votar`, {
             method: "PUT",
             headers: {
@@ -74,7 +83,7 @@
             })
         }).then(function (resposta) {
             if (resposta.ok) {                
-
+                sessionStorage.VOTO_USUARIO = estilo
                 window.location = "./Dashboard/MUS_DASHBOARD.html"
             };
 
@@ -85,5 +94,9 @@
             
         });
     
+    }
+
+    function atualizarVoto(){
+        fetch("/usuarios/atualizarVoto")
     }
 </script>
